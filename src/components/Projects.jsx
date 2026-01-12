@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Github, ExternalLink, Code2, Eye } from "lucide-react";
-import flightBooking from "../assets/mainimages/flightBooking.png";
-import Coffee from "../assets/mainimages/Coffee.png";
-import vougeVoult from "../assets/mainimages/VougeVoult.png";
+
+import flightBooking from "../assets/images/flightBooking.png";
+import coffeeShop from "../assets/images/coffee.png";
+import vougeVault from "../assets/images/vougeVault.png";
+
 const projects = [
   {
     id: 1,
@@ -19,7 +21,7 @@ const projects = [
     title: "E-Commerce Website",
     description:
       "A complete e-commerce application with product listings, shopping cart, secure login and order management using Java backend.",
-    image: vougeVoult,
+    image: vougeVault,
     github: "https://github.com/gchaknalwar",
     demo: "#",
     tags: ["React", "Spring Boot", "MySQL"],
@@ -29,7 +31,7 @@ const projects = [
     title: "Coffee Website",
     description:
       "A modern coffee website featuring hero section, member login, menu, reviews and contact form built with HTML, CSS & JavaScript.",
-    image: Coffee, // yaha tu coffee site ka screenshot ya hero image daal de
+    image: coffeeShop,
     github: "https://github.com/gchaknalwar",
     demo: "#",
     tags: ["HTML", "CSS", "JavaScript"],
@@ -41,14 +43,12 @@ const Projects = () => {
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#0b0b0b] to-[#0f0a08] px-6 md:px-20 py-32 overflow-hidden">
-      {/* Glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-10 w-96 h-96 bg-orange-500/10 blur-[120px]" />
         <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-amber-500/10 blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        {/* Header */}
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full mb-6">
             <Code2 className="text-orange-400" size={18} />
@@ -67,7 +67,6 @@ const Projects = () => {
           </p>
         </div>
 
-        {/* Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <div
@@ -77,13 +76,13 @@ const Projects = () => {
               className="group relative"
             >
               <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500">
-                {/* Image */}
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={project.image}
                     alt={project.title}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                   />
+
                   <div
                     className={`absolute inset-0 bg-black/70 flex items-center justify-center transition-opacity ${
                       hoveredProject === project.id
@@ -98,15 +97,15 @@ const Projects = () => {
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-6 space-y-4">
                   <h3 className="text-2xl font-bold text-white group-hover:text-orange-400 transition">
                     {project.title}
                   </h3>
 
-                  <p className="text-gray-400 text-sm">{project.description}</p>
+                  <p className="text-gray-400 text-sm">
+                    {project.description}
+                  </p>
 
-                  {/* Tech */}
                   <div className="flex flex-wrap gap-2">
                     {project.tags.map((tag, i) => (
                       <span
@@ -118,7 +117,6 @@ const Projects = () => {
                     ))}
                   </div>
 
-                  {/* Buttons */}
                   <div className="flex gap-3 pt-4">
                     <a
                       href={project.github}
@@ -144,7 +142,6 @@ const Projects = () => {
           ))}
         </div>
 
-        {/* View More */}
         <div className="text-center mt-16">
           <a
             href="https://github.com/gchaknalwar"
