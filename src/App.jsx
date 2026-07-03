@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Hero from "./components/Hero";
 import About from "./components/About";
+import Certifications from "./components/Certifications.jsx";
+import Experience from "./components/Experience";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 
@@ -22,6 +24,14 @@ const Layout = () => {
   );
 };
 
+/* About + Certifications shown together on one page */
+const AboutPage = () => (
+  <>
+    <About />
+    <Certifications />
+  </>
+);
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -33,7 +43,11 @@ const router = createBrowserRouter([
       },
       {
         path: "About",
-        element: <About />,
+        element: <AboutPage />,
+      },
+      {
+        path: "Experience",
+        element: <Experience />,
       },
       {
         path: "Projects",

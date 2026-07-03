@@ -2,6 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, Sparkles, Zap, Code2, Rocket } from "lucide-react";
 
+const NAV_ITEMS = [
+  { text: "Home", path: "/" },
+  { text: "About", path: "/About" },
+  { text: "Experience", path: "/Experience" },
+  { text: "Projects", path: "/Projects" },
+  { text: "Contact", path: "/Contact" },
+];
+
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -64,26 +72,14 @@ const Navbar = () => {
 
         {/* Desktop Links */}
         <ul className="hidden lg:flex gap-10">
-          <Nav
-            text="Home"
-            active={location.pathname === "/"}
-            onClick={() => go("/")}
-          />
-          <Nav
-            text="About"
-            active={location.pathname === "/About"}
-            onClick={() => go("/About")}
-          />
-          <Nav
-            text="Projects"
-            active={location.pathname === "/Projects"}
-            onClick={() => go("/Projects")}
-          />
-          <Nav
-            text="Contact"
-            active={location.pathname === "/Contact"}
-            onClick={() => go("/Contact")}
-          />
+          {NAV_ITEMS.map((item) => (
+            <Nav
+              key={item.path}
+              text={item.text}
+              active={location.pathname === item.path}
+              onClick={() => go(item.path)}
+            />
+          ))}
         </ul>
 
         {/* CTA */}
@@ -96,7 +92,11 @@ const Navbar = () => {
         </button>
 
         {/* Mobile Toggle */}
-        <button className="lg:hidden text-white" onClick={() => setOpen(!open)}>
+        <button
+          className="lg:hidden text-white"
+          onClick={() => setOpen(!open)}
+          aria-label={open ? "Close menu" : "Open menu"}
+        >
           {open ? <X size={28} /> : <Menu size={28} />}
         </button>
       </div>
@@ -104,30 +104,18 @@ const Navbar = () => {
       {/* Mobile Menu */}
       <div
         className={`lg:hidden transition-all duration-500 ${
-          open ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+          open ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
         } overflow-hidden bg-black/95 backdrop-blur-xl`}
       >
         <div className="px-6 py-8 space-y-4">
-          <Mobile
-            text="Home"
-            active={location.pathname === "/"}
-            onClick={() => go("/")}
-          />
-          <Mobile
-            text="About"
-            active={location.pathname === "/About"}
-            onClick={() => go("/About")}
-          />
-          <Mobile
-            text="Projects"
-            active={location.pathname === "/Projects"}
-            onClick={() => go("/Projects")}
-          />
-          <Mobile
-            text="Contact"
-            active={location.pathname === "/Contact"}
-            onClick={() => go("/Contact")}
-          />
+          {NAV_ITEMS.map((item) => (
+            <Mobile
+              key={item.path}
+              text={item.text}
+              active={location.pathname === item.path}
+              onClick={() => go(item.path)}
+            />
+          ))}
 
           <button
             onClick={() => go("/Contact")}
@@ -142,25 +130,31 @@ const Navbar = () => {
 };
 
 const Nav = ({ text, active, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`relative font-bold uppercase tracking-wide transition ${
-      active ? "text-orange-400" : "text-white/80 hover:text-white"
-    }`}
-  >
-    {text}
-    <span
-      className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-orange-500 to-amber-500 transition-all ${
-        active ? "w-full" : "w-0 group-hover:w-full"
-      }`}
-    />
-  </button>
+  <li>
+    <button
+      onClick={onClick}
+      className="group relative font-bold uppercase tracking-wide transition"
+    >
+      <span
+        className={
+          active ? "text-orange-400" : "text-white/80 group-hover:text-white"
+        }
+      >
+        {text}
+      </span>
+      <span
+        className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-300 ${
+          active ? "w-full" : "w-0 group-hover:w-full"
+        }`}
+      />
+    </button>
+  </li>
 );
 
 const Mobile = ({ text, active, onClick }) => (
   <button
     onClick={onClick}
-    className={`w-full py-4 px-6 rounded-xl font-bold ${
+    className={`w-full py-4 px-6 rounded-xl font-bold text-left transition ${
       active
         ? "bg-orange-500/20 text-orange-400 border border-orange-500/40"
         : "text-white/80 hover:bg-white/5"

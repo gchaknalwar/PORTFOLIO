@@ -1,40 +1,43 @@
 import React, { useState } from "react";
 import { Github, ExternalLink, Code2, Eye } from "lucide-react";
 
-import flightBooking from "../assets/images/flightBooking.png";
-import coffeeShop from "../assets/images/coffee.png";
-import vougeVault from "../assets/images/vougeVault.png";
+// NOTE: These image files are reused from your old projects as placeholders
+// so the code doesn't break. Swap them for real screenshots of these three
+// projects when you have them (same filenames, or update the imports below).
+import ecommerceImg from "../assets/images/vougeVault.png";
+import bankingImg from "../assets/images/flightBooking.png";
+import taskApiImg from "../assets/images/coffee.png";
 
 const projects = [
   {
     id: 1,
-    title: "Flight Booking System",
+    title: "E-Commerce Web Platform",
     description:
-      "A full-stack flight booking platform where users can search flights, book seats, manage bookings and admins can manage schedules and customers.",
-    image: flightBooking,
+      "A full-stack e-commerce application built with the MERN stack — product catalog, category-based filtering, shopping cart, secure user authentication, and order management. Integrated JWT auth and Razorpay/Stripe for checkout, plus a responsive admin dashboard for inventory, order tracking, and sales analytics.",
+    image: ecommerceImg,
     github: "https://github.com/gchaknalwar",
     demo: "#",
-    tags: ["React", "Node.js", "MongoDB", "Express"],
+    tags: ["React.js", "Node.js", "Express", "MongoDB", "JWT", "Razorpay"],
   },
   {
     id: 2,
-    title: "E-Commerce Website",
+    title: "Online Banking System",
     description:
-      "A complete e-commerce application with product listings, shopping cart, secure login and order management using Java backend.",
-    image: vougeVault,
+      "A secure banking application with user authentication and role-based authorization using Spring Security. Includes a normalized MySQL schema with Hibernate/JPA, RESTful APIs for account management, fund transfers, and transaction history, plus a responsive React frontend.",
+    image: bankingImg,
     github: "https://github.com/gchaknalwar",
     demo: "#",
-    tags: ["React", "Spring Boot", "MySQL"],
+    tags: ["Spring Boot", "Hibernate", "MySQL", "React.js", "Spring Security"],
   },
   {
     id: 3,
-    title: "Coffee Website",
+    title: "Task Management REST API",
     description:
-      "A modern coffee website featuring hero section, member login, menu, reviews and contact form built with HTML, CSS & JavaScript.",
-    image: coffeeShop,
+      "A Task Management REST API built with Spring Boot, Spring Data JPA, and MySQL — full CRUD operations following RESTful design principles, with task filtering, sorting, and deadline management. Tested and documented using Postman.",
+    image: taskApiImg,
     github: "https://github.com/gchaknalwar",
     demo: "#",
-    tags: ["HTML", "CSS", "JavaScript"],
+    tags: ["Spring Boot", "Spring Data JPA", "MySQL", "Postman"],
   },
 ];
 
@@ -42,14 +45,14 @@ const Projects = () => {
   const [hoveredProject, setHoveredProject] = useState(null);
 
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#0b0b0b] to-[#0f0a08] px-6 md:px-20 py-32 overflow-hidden">
+    <section className="relative min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#0b0b0b] to-[#0f0a08] px-6 md:px-20 py-28 md:py-32 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-10 w-96 h-96 bg-orange-500/10 blur-[120px]" />
         <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-amber-500/10 blur-[120px]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
-        <div className="text-center mb-20">
+        <div className="text-center mb-16 md:mb-20 animate-fadeInUp">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full mb-6">
             <Code2 className="text-orange-400" size={18} />
             <span className="text-orange-300 text-sm font-semibold">
@@ -57,25 +60,26 @@ const Projects = () => {
             </span>
           </div>
 
-          <h2 className="text-6xl font-black mb-6 bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 text-transparent bg-clip-text">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 text-transparent bg-clip-text">
             Featured Work
           </h2>
 
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg">
             Real-world projects built using MERN Stack and Java Full Stack,
             focusing on performance, security and clean UI.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project) => (
+          {projects.map((project, i) => (
             <div
               key={project.id}
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
-              className="group relative"
+              className="group relative animate-fadeInUp"
+              style={{ animationDelay: `${i * 0.1}s` }}
             >
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:-translate-y-2 transition-all duration-500">
+              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl overflow-hidden hover:-translate-y-2 hover:border-orange-500/30 transition-all duration-500 h-full flex flex-col">
                 <div className="relative h-56 overflow-hidden">
                   <img
                     src={project.image}
@@ -97,12 +101,12 @@ const Projects = () => {
                   </div>
                 </div>
 
-                <div className="p-6 space-y-4">
-                  <h3 className="text-2xl font-bold text-white group-hover:text-orange-400 transition">
+                <div className="p-6 space-y-4 flex-1 flex flex-col">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white group-hover:text-orange-400 transition">
                     {project.title}
                   </h3>
 
-                  <p className="text-gray-400 text-sm">
+                  <p className="text-gray-400 text-sm flex-1">
                     {project.description}
                   </p>
 
@@ -131,6 +135,7 @@ const Projects = () => {
                       href={project.demo}
                       target="_blank"
                       rel="noreferrer"
+                      aria-label={`Live demo of ${project.title}`}
                       className="px-5 py-3 border border-white/20 rounded-xl text-white hover:border-orange-400 transition"
                     >
                       <ExternalLink size={18} />

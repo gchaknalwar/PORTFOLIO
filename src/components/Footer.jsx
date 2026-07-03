@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Github,
   Linkedin,
@@ -9,7 +10,22 @@ import {
   Code2,
 } from "lucide-react";
 
+const NAV_LINKS = [
+  { text: "Home", path: "/" },
+  { text: "About", path: "/About" },
+  { text: "Experience", path: "/Experience" },
+  { text: "Projects", path: "/Projects" },
+  { text: "Contact", path: "/Contact" },
+];
+
 const Footer = () => {
+  const navigate = useNavigate();
+
+  const scrollToTop = () => {
+    navigate("/");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <footer className="relative bg-[#0a0a0a] text-white overflow-hidden">
       {/* Soft Glow */}
@@ -18,32 +34,32 @@ const Footer = () => {
         <div className="absolute right-[-200px] top-[-200px] w-[500px] h-[500px] bg-amber-500/20 blur-[160px] rounded-full" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 py-20">
+      <div className="relative max-w-7xl mx-auto px-6 py-16 md:py-20">
         {/* Top CTA */}
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-[0_0_60px_rgba(255,120,0,0.25)]">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-14 flex flex-col md:flex-row items-center justify-between gap-8 shadow-[0_0_60px_rgba(255,120,0,0.25)]">
           <div>
-            <h2 className="text-3xl md:text-4xl font-black text-white">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white">
               Ready to work with{" "}
               <span className="bg-gradient-to-r from-orange-400 to-amber-400 bg-clip-text text-transparent">
                 Govind?
               </span>
             </h2>
             <p className="text-gray-400 mt-3 max-w-xl">
-              Open to Full-Time, Internships & Freelance opportunities. Let’s
+              Open to Full-Time, Internships & Freelance opportunities. Let's
               build modern, scalable and beautiful web applications together.
             </p>
           </div>
 
           <a
             href="mailto:gchaknalwar@gmail.com"
-            className="px-10 py-4 bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl text-white font-bold shadow-lg shadow-orange-500/40 hover:shadow-orange-500/60 hover:scale-105 transition"
+            className="px-10 py-4 bg-gradient-to-r from-orange-500 to-amber-500 rounded-xl text-white font-bold shadow-lg shadow-orange-500/40 hover:shadow-orange-500/60 hover:scale-105 transition whitespace-nowrap"
           >
             Contact Me
           </a>
         </div>
 
         {/* Main Footer Grid */}
-        <div className="grid md:grid-cols-3 gap-12 mt-20">
+        <div className="grid md:grid-cols-3 gap-12 mt-16 md:mt-20">
           {/* Branding */}
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -66,14 +82,14 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-bold mb-4">Navigation</h4>
             <div className="space-y-3 text-gray-400">
-              {["Home", "About", "Projects", "Contact"].map((item) => (
-                <a
-                  key={item}
-                  href={`/${item === "Home" ? "" : item}`}
-                  className="block hover:text-orange-400 transition"
+              {NAV_LINKS.map((item) => (
+                <button
+                  key={item.path}
+                  onClick={() => navigate(item.path)}
+                  className="block hover:text-orange-400 transition text-left"
                 >
-                  {item}
-                </a>
+                  {item.text}
+                </button>
               ))}
             </div>
           </div>
@@ -81,25 +97,39 @@ const Footer = () => {
           {/* Socials */}
           <div>
             <h4 className="text-lg font-bold mb-4">Connect with me</h4>
-            <div className="flex gap-4">
-              <Social icon={<Github />} link="https://github.com/gchaknalwar" />
+            <div className="flex flex-wrap gap-4">
+              <Social
+                icon={<Github />}
+                link="https://github.com/gchaknalwar"
+                label="GitHub"
+              />
               <Social
                 icon={<Linkedin />}
                 link="https://www.linkedin.com/in/govind-chaknalwar-b35278215/"
+                label="LinkedIn"
               />
               <Social
                 icon={<Instagram />}
                 link="https://www.instagram.com/255_boss/"
+                label="Instagram"
               />
-              <Social icon={<Twitter />} link="https://x.com/255_Boss" />
-              <Social icon={<Mail />} link="mailto:gchaknalwar@gmail.com" />
+              <Social
+                icon={<Twitter />}
+                link="https://x.com/255_Boss"
+                label="Twitter"
+              />
+              <Social
+                icon={<Mail />}
+                link="mailto:gchaknalwar@gmail.com"
+                label="Email"
+              />
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-400 text-sm">
-          <p>
+          <p className="text-center md:text-left">
             © {new Date().getFullYear()}{" "}
             <span className="text-orange-400 font-semibold">
               Govind Chaknalwar
@@ -107,23 +137,24 @@ const Footer = () => {
             — All rights reserved.
           </p>
 
-          <a
-            href="#top"
+          <button
+            onClick={scrollToTop}
             className="flex items-center gap-2 text-orange-400 hover:text-orange-300 transition"
           >
             Back to top <ArrowUpRight size={16} />
-          </a>
+          </button>
         </div>
       </div>
     </footer>
   );
 };
 
-const Social = ({ icon, link }) => (
+const Social = ({ icon, link, label }) => (
   <a
     href={link}
     target="_blank"
     rel="noreferrer"
+    aria-label={label}
     className="w-12 h-12 flex items-center justify-center rounded-xl bg-white/5 border border-white/10 hover:border-orange-400 hover:bg-orange-500/10 hover:scale-110 transition"
   >
     {icon}

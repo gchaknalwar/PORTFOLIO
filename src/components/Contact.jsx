@@ -26,7 +26,11 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const mailTo = `mailto:gchaknalwar@gmail.com?subject=Portfolio Contact from ${formData.name}&body=Name: ${formData.name}%0AEmail: ${formData.email}%0A%0AMessage:%0A${formData.message}`;
+    const mailTo = `mailto:gchaknalwar@gmail.com?subject=${encodeURIComponent(
+      `Portfolio Contact from ${formData.name}`,
+    )}&body=${encodeURIComponent(
+      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`,
+    )}`;
 
     window.location.href = mailTo;
 
@@ -38,7 +42,7 @@ const Contact = () => {
   return (
     <section
       id="contact"
-      className="relative min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#0c0c0c] to-[#120a05] px-6 md:px-20 py-28"
+      className="relative min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#0c0c0c] to-[#120a05] px-6 md:px-20 py-24 md:py-28"
     >
       {/* Glow */}
       <div className="absolute inset-0 pointer-events-none">
@@ -48,7 +52,7 @@ const Contact = () => {
 
       <div className="relative z-10 max-w-6xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-16 md:mb-20 animate-fadeInUp">
           <div className="inline-flex items-center gap-2 px-4 py-2 border border-orange-500/20 rounded-full bg-orange-500/10 mb-6">
             <MessageSquare size={16} className="text-orange-400" />
             <span className="text-orange-300 text-sm font-semibold">
@@ -56,12 +60,12 @@ const Contact = () => {
             </span>
           </div>
 
-          <h2 className="text-6xl font-black mb-6 bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 text-transparent bg-clip-text">
-            Let’s Work Together
+          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 text-transparent bg-clip-text">
+            Let's Work Together
           </h2>
 
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            I’m{" "}
+          <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg">
+            I'm{" "}
             <span className="text-orange-400 font-semibold">
               Govind Chaknalwar
             </span>
@@ -72,7 +76,10 @@ const Contact = () => {
 
         <div className="grid lg:grid-cols-3 gap-10">
           {/* Contact Info */}
-          <div className="space-y-6">
+          <div
+            className="space-y-6 animate-fadeInUp"
+            style={{ animationDelay: "0.1s" }}
+          >
             {[
               {
                 icon: <Mail />,
@@ -89,8 +96,8 @@ const Contact = () => {
               {
                 icon: <MapPin />,
                 title: "Location",
-                value: "Rajura, Chandrapur, Maharashtra",
-                link: "#",
+                value: "Hyderabad, Telangana, India",
+                link: "https://maps.google.com/?q=Hyderabad,Telangana,India",
               },
             ].map((item, i) => (
               <a
@@ -101,7 +108,7 @@ const Contact = () => {
                 className="block bg-white/5 border border-white/10 rounded-2xl p-6 hover:border-orange-500/40 transition"
               >
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center text-white">
+                  <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center text-white shrink-0">
                     {item.icon}
                   </div>
                   <div>
@@ -114,7 +121,7 @@ const Contact = () => {
 
             <div className="bg-orange-500/10 border border-orange-500/20 rounded-2xl p-6">
               <div className="flex gap-4">
-                <Sparkles className="text-orange-400" />
+                <Sparkles className="text-orange-400 shrink-0" />
                 <p className="text-gray-300 text-sm">
                   Available for <b>Full-Time, Internship & Freelance</b>. I
                   usually reply within 24 hours.
@@ -124,10 +131,13 @@ const Contact = () => {
           </div>
 
           {/* Form */}
-          <div className="lg:col-span-2">
+          <div
+            className="lg:col-span-2 animate-fadeInUp"
+            style={{ animationDelay: "0.2s" }}
+          >
             <form
               onSubmit={handleSubmit}
-              className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-10 space-y-6"
+              className="bg-white/5 border border-white/10 rounded-3xl p-6 sm:p-8 md:p-10 space-y-6"
             >
               <div>
                 <label className="text-white font-semibold flex gap-2 mb-2">
@@ -183,7 +193,7 @@ const Contact = () => {
 
               {submitted && (
                 <div className="flex items-center gap-3 bg-green-500/10 border border-green-500/30 rounded-xl p-4">
-                  <CheckCircle2 className="text-green-400" />
+                  <CheckCircle2 className="text-green-400 shrink-0" />
                   <p className="text-green-400 font-semibold">
                     Email client opened — message ready to send!
                   </p>
