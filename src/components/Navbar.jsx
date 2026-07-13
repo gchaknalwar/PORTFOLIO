@@ -24,6 +24,7 @@ const Navbar = () => {
 
   useEffect(() => {
     setOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" }); // <-- yeh line add ki
   }, [location]);
 
   const go = (path) => {
