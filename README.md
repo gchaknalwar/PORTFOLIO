@@ -4,7 +4,7 @@ Welcome to my personal developer portfolio! This project showcases my skills, pr
 
 ## 🌐 Live Demo
 
-🚀 **Portfolio:** *https://portfolio-one-sage-3548vk7zvh.vercel.app/*
+🚀 **Portfolio:** [Click here to visit my portfolio](https://portfolio-one-sage-3548vk7zvh.vercel.app/)
 
 ---
 
