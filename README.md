@@ -18,8 +18,7 @@ This is my **personal developer portfolio** built using [Vite](https://vitejs.de
 
 ## 🚀 Live Demo
 
-🌐 [Click here to visit my portfolio]([https://my-portfolio-4tdlvddh3-gchaknalwars-projects.vercel.app/](https://vercel.com/gchaknalwars-projects/portfolio))
-
+🌐 [Click here to visit my portfolio]https://vercel.com/gchaknalwars-projects/portfolio
 
 ## 📦 Installation
 
