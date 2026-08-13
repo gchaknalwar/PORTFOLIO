@@ -1,168 +1,141 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
-import { Menu, X, Sparkles, Zap, Code2, Rocket } from "lucide-react";
+import { Menu, X, ArrowUpRight } from "lucide-react";
 
-const NAV_ITEMS = [
-  { text: "Home", path: "/" },
-  { text: "About", path: "/About" },
-  { text: "Experience", path: "/Experience" },
-  { text: "Projects", path: "/Projects" },
-  { text: "Contact", path: "/Contact" },
-];
+export default function Navbar() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
 
-const Navbar = () => {
-  const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navLinks = [
+    { name: "HOME", href: "#home", id: "home" },
+    { name: "ABOUT", href: "#about", id: "about" },
+    { name: "PROJECTS", href: "#projects", id: "projects" },
+    { name: "SKILLS", href: "#skills", id: "skills" },
+    { name: "EXPERIENCE", href: "#experience", id: "experience" },
+    { name: "CONTACT", href: "#contact", id: "contact" },
+  ];
 
+  // Active section track karne ke liye IntersectionObserver
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const sectionIds = navLinks.map((link) => link.id);
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -60% 0px", // Screen ke central portion me entry track karega
+      threshold: 0,
+    };
+
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      observerCallback,
+      observerOptions,
+    );
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    setOpen(false);
-    window.scrollTo({ top: 0, behavior: "smooth" }); // <-- yeh line add ki
-  }, [location]);
-
-  const go = (path) => {
-    navigate(path);
-    setOpen(false);
-  };
-
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-black/95 backdrop-blur-2xl border-b border-orange-500/30 shadow-2xl shadow-orange-500/10"
-          : "bg-gradient-to-b from-black/80 to-transparent backdrop-blur-md"
-      }`}
-    >
+    <header className="fixed top-0 left-0 w-full z-50 bg-[#03050a]/80 backdrop-blur-md border-b border-white/5">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        {/* LOGO */}
-        <button
-          onClick={() => go("/")}
-          className="group flex items-center gap-3"
+        {/* Brand Logo / Name */}
+        <a
+          href="#home"
+          className="text-xl font-bold tracking-wider font-display text-white hover:text-blue-400 transition-colors"
         >
-          <div className="relative">
-            <div className="absolute inset-0 w-12 h-12 border-2 border-orange-500/30 rounded-xl rotate-45 group-hover:rotate-[225deg] transition-all duration-700"></div>
+          GOVIND CHAKNALWAR
+        </a>
 
-            <div className="relative w-12 h-12 bg-gradient-to-br from-orange-500 via-amber-400 to-orange-600 rounded-xl flex items-center justify-center shadow-lg shadow-orange-500/50 group-hover:scale-110 transition">
-              <Code2 className="text-white" />
-              <Sparkles
-                className="absolute -top-1 -right-1 text-yellow-300 animate-pulse"
-                size={12}
-              />
-            </div>
-          </div>
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center space-x-1 text-xs tracking-widest font-mono">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
 
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl font-black bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 bg-clip-text text-transparent">
-                GOVIND
-              </span>
-              <Zap className="text-orange-400 animate-pulse" size={16} />
-            </div>
-            <p className="text-[11px] tracking-widest text-orange-400/60 uppercase -mt-1">
-              Chaknalwar • Full Stack Dev
-            </p>
-          </div>
-        </button>
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                className={`relative px-4 py-2 rounded-full transition-all duration-300 ${
+                  isActive
+                    ? "text-blue-400 font-bold bg-blue-500/10 border border-blue-500/20"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                {link.name}
 
-        {/* Desktop Links */}
-        <ul className="hidden lg:flex gap-10">
-          {NAV_ITEMS.map((item) => (
-            <Nav
-              key={item.path}
-              text={item.text}
-              active={location.pathname === item.path}
-              onClick={() => go(item.path)}
-            />
-          ))}
-        </ul>
+                {/* Glowing Indicator Dot for Active State */}
+                {isActive && (
+                  <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2 h-0.5 bg-blue-400 rounded-full shadow-[0_0_8px_#60a5fa]"></span>
+                )}
+              </a>
+            );
+          })}
+        </nav>
 
-        {/* CTA */}
-        <button
-          onClick={() => go("/Contact")}
-          className="hidden lg:flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-2xl shadow-lg shadow-orange-500/50 hover:scale-105 transition"
-        >
-          <Rocket size={18} />
-          Hire Me
-        </button>
-
-        {/* Mobile Toggle */}
-        <button
-          className="lg:hidden text-white"
-          onClick={() => setOpen(!open)}
-          aria-label={open ? "Close menu" : "Open menu"}
-        >
-          {open ? <X size={28} /> : <Menu size={28} />}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      <div
-        className={`lg:hidden transition-all duration-500 ${
-          open ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
-        } overflow-hidden bg-black/95 backdrop-blur-xl`}
-      >
-        <div className="px-6 py-8 space-y-4">
-          {NAV_ITEMS.map((item) => (
-            <Mobile
-              key={item.path}
-              text={item.text}
-              active={location.pathname === item.path}
-              onClick={() => go(item.path)}
-            />
-          ))}
-
-          <button
-            onClick={() => go("/Contact")}
-            className="w-full py-4 mt-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl"
+        {/* CTA Button */}
+        <div className="hidden md:block">
+          <a
+            href="#contact"
+            className="inline-flex items-center space-x-2 text-xs font-mono tracking-widest text-blue-400 border border-blue-500/30 px-4 py-2 rounded-full hover:bg-blue-600/10 hover:border-blue-500 transition-all shadow-[0_0_15px_rgba(59,130,246,0.2)]"
           >
-            Hire Me
-          </button>
+            <span>LET'S TALK</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
         </div>
+
+        {/* Mobile Menu Button */}
+        <button
+          onClick={() => setIsOpen(!isOpen)}
+          className="md:hidden text-white focus:outline-none"
+        >
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
-    </nav>
+
+      {/* Mobile Drawer Menu */}
+      {isOpen && (
+        <div className="md:hidden bg-[#080c14] border-b border-white/10 px-6 py-6 flex flex-col space-y-3">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.id;
+
+            return (
+              <a
+                key={link.name}
+                href={link.href}
+                onClick={() => setIsOpen(false)}
+                className={`flex items-center justify-between text-sm font-mono tracking-widest px-4 py-2.5 rounded-lg transition-all ${
+                  isActive
+                    ? "text-blue-400 bg-blue-500/10 border-l-2 border-blue-400 font-bold"
+                    : "text-slate-400 hover:text-white"
+                }`}
+              >
+                <span>{link.name}</span>
+                {isActive && (
+                  <span className="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                )}
+              </a>
+            );
+          })}
+
+          <a
+            href="#contact"
+            onClick={() => setIsOpen(false)}
+            className="inline-flex items-center justify-between text-xs font-mono tracking-widest text-blue-400 border border-blue-500/30 px-4 py-3 rounded-md hover:bg-blue-600/10 mt-2"
+          >
+            <span>LET'S TALK</span>
+            <ArrowUpRight className="w-4 h-4" />
+          </a>
+        </div>
+      )}
+    </header>
   );
-};
-
-const Nav = ({ text, active, onClick }) => (
-  <li>
-    <button
-      onClick={onClick}
-      className="group relative font-bold uppercase tracking-wide transition"
-    >
-      <span
-        className={
-          active ? "text-orange-400" : "text-white/80 group-hover:text-white"
-        }
-      >
-        {text}
-      </span>
-      <span
-        className={`absolute left-0 -bottom-1 h-0.5 bg-gradient-to-r from-orange-500 to-amber-500 transition-all duration-300 ${
-          active ? "w-full" : "w-0 group-hover:w-full"
-        }`}
-      />
-    </button>
-  </li>
-);
-
-const Mobile = ({ text, active, onClick }) => (
-  <button
-    onClick={onClick}
-    className={`w-full py-4 px-6 rounded-xl font-bold text-left transition ${
-      active
-        ? "bg-orange-500/20 text-orange-400 border border-orange-500/40"
-        : "text-white/80 hover:bg-white/5"
-    }`}
-  >
-    {text}
-  </button>
-);
-
-export default Navbar;
+}

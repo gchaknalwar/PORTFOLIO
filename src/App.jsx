@@ -1,68 +1,62 @@
-import React from "react";
-import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import IntroAnimation from './components/IntroAnimation';
+import Navbar from './components/Navbar';
+import Hero from './components/Hero';
+import Projects from './components/Projects';
+import Skills from './components/Skills';
+import Process from './components/Process';
+import About from './components/About';
+import Experience from './components/Experience';
+import Certificates from './components/Certificates';
+import Contact from './components/Contact';
+import Footer from './components/Footer';
 
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
-import Hero from "./components/Hero";
-import About from "./components/About";
-import Certifications from "./components/Certifications.jsx";
-import Experience from "./components/Experience";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
+export default function App() {
+  const [introFinished, setIntroFinished] = useState(false);
 
-/* Layout wrapper */
-const Layout = () => {
+  useEffect(() => {
+    // 1. Disable browser's automatic scroll restoration on reload
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+
+    // 2. Force scroll to top (0, 0) immediately
+    window.scrollTo(0, 0);
+
+    // 3. Clear URL hash (e.g. removes #contact or #projects so page reloads clean)
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, []);
+
+  // Handle scroll to top once Intro Animation finishes
+  const handleIntroComplete = () => {
+    window.scrollTo(0, 0);
+    setIntroFinished(true);
+  };
+
   return (
-    <>
-      <Navbar />
-      <main className="pt-24">
-        {/* pt-24 so navbar doesn't overlap content */}
-        <Outlet />
-      </main>
-      <Footer />
-    </>
+    <div className="min-h-screen bg-bgDark text-slate-100 selection:bg-blue-600 selection:text-white">
+      {/* Show intro on initial load */}
+      {!introFinished && (
+        <IntroAnimation onComplete={handleIntroComplete} />
+      )}
+
+      {/* Render Website Content */}
+      <div className={introFinished ? 'opacity-100 transition-opacity duration-700' : 'opacity-0'}>
+        <Navbar />
+        <main>
+          <Hero />
+          <Projects />
+          <Skills />
+          <Process />
+          <About />
+          <Experience />
+          <Certificates />
+          <Contact />
+        </main>
+        <Footer />
+      </div>
+    </div>
   );
-};
-
-/* About + Certifications shown together on one page */
-const AboutPage = () => (
-  <>
-    <About />
-    <Certifications />
-  </>
-);
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      {
-        index: true,
-        element: <Hero />,
-      },
-      {
-        path: "About",
-        element: <AboutPage />,
-      },
-      {
-        path: "Experience",
-        element: <Experience />,
-      },
-      {
-        path: "Projects",
-        element: <Projects />,
-      },
-      {
-        path: "Contact",
-        element: <Contact />,
-      },
-    ],
-  },
-]);
-
-const App = () => {
-  return <RouterProvider router={router} />;
-};
-
-export default App;
+}

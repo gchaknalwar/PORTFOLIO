@@ -1,106 +1,118 @@
-import React from "react";
-import { GraduationCap, Briefcase, CalendarDays } from "lucide-react";
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Briefcase, Calendar, Building2, ChevronRight } from 'lucide-react';
+import { experienceData } from '../data/portfolioData';
 
-const timeline = [
-  {
-    type: "work",
-    title: "Software Engineer Intern",
-    place: "YugaYatra Retail (OPC) Private Ltd — Remote",
-    period: "Dec 2025 — Feb 2026",
-    description:
-      "Used Git for version control in an Agile workflow, contributing to sprint planning, code reviews, and iterative feature development. Leveraged AI-assisted tools like Cursor AI to improve development efficiency while keeping code clean and well-structured.",
+// Framer Motion Animation Variants
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.1,
+    },
   },
-  {
-    type: "education",
-    title: "B.Tech in Computer Science",
-    place: "Parul University",
-    period: "2022 — 2026",
-    description: "Engineering, CGPA: 7.12",
-  },
-  {
-    type: "work",
-    title: "Web Development Intern",
-    place: "OctaNet Technologies — Remote",
-    period: "Oct 2023 — Dec 2023",
-    description:
-      "Designed and developed end-to-end full-stack web applications using React.js, Node.js, Express.js, MongoDB, and MySQL. Built responsive UIs and scalable RESTful APIs following clean coding practices.",
-  },
-  {
-    type: "education",
-    title: "Intermediate (MPC)",
-    place: "Sri Chaitanya Junior College",
-    period: "2020 — 2022",
-    description: "GPA: 96%",
-  },
-  {
-    type: "education",
-    title: "High School",
-    place: "Krishnaveni Residential High School",
-    period: "2016 — 2020",
-    description: "GPA: 93%",
-  },
-];
+};
 
-const Experience = () => {
+const cardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: [0.215, 0.61, 0.355, 1] },
+  },
+};
+
+export default function Experience() {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-[#0a0a0a] via-[#0b0b0b] to-[#0f0a08] px-6 md:px-20 py-28 md:py-32 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/3 left-10 w-96 h-96 bg-orange-500/10 blur-[120px] rounded-full" />
-        <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-amber-500/10 blur-[140px] rounded-full" />
-      </div>
+    <section id="experience" className="py-24 bg-[#03050A] border-t border-white/5 relative overflow-hidden select-none">
+      
+      {/* Background Subtle Ambient Glow */}
+      <div className="absolute top-1/2 left-0 w-96 h-96 bg-blue-600/10 rounded-full blur-[150px] pointer-events-none z-0" />
 
-      <div className="relative z-10 max-w-4xl mx-auto">
-        <div className="text-center mb-16 md:mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-orange-500/10 border border-orange-500/20 rounded-full mb-6">
-            <CalendarDays className="text-orange-400" size={16} />
-            <span className="text-orange-300 text-sm font-semibold">
-              Journey So Far
-            </span>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        
+        {/* Header Tag & Section Title */}
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="flex items-center gap-2 text-xs font-mono text-blue-400 tracking-widest mb-4">
+            <Briefcase className="w-4 h-4" />
+            <span>CAREER PATH</span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl md:text-6xl font-black mb-6 bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 text-transparent bg-clip-text">
-            Experience & Education
+          <h2 className="text-5xl md:text-7xl font-display font-extrabold tracking-tight uppercase mb-16">
+            <span className="text-white">WORK </span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500 drop-shadow-[0_0_25px_rgba(37,99,235,0.4)]">
+              EXPERIENCE
+            </span>
           </h2>
+        </motion.div>
 
-          <p className="text-gray-400 max-w-2xl mx-auto text-base sm:text-lg">
-            A quick timeline of my education and hands-on development
-            experience.
-          </p>
-        </div>
+        {/* Experience Cards Stack */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          className="space-y-6 relative border-l border-white/10 ml-3 md:ml-4 pl-6 md:pl-10"
+        >
+          {experienceData.map((exp, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              whileHover={{ x: 6 }}
+              transition={{ type: "spring", stiffness: 350, damping: 25 }}
+              className="group relative rounded-2xl p-[1px] bg-gradient-to-b from-white/10 via-white/5 to-transparent hover:from-blue-500/50 hover:via-blue-500/20 hover:to-indigo-500/10 shadow-lg hover:shadow-[0_0_35px_rgba(37,99,235,0.2)] transition-all duration-500"
+            >
+              {/* Timeline Connector Dot */}
+              <div className="absolute -left-[31px] md:-left-[47px] top-8 w-3.5 h-3.5 rounded-full bg-[#080C14] border-2 border-blue-500 group-hover:bg-blue-400 group-hover:scale-125 transition-all duration-300 shadow-[0_0_10px_rgba(37,99,235,0.8)]" />
 
-        <div className="relative border-l border-white/10 ml-4 md:ml-8 space-y-10">
-          {timeline.map((item, index) => (
-            <div key={index} className="relative pl-8 md:pl-10">
-              <span className="absolute -left-[9px] top-1 w-4 h-4 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 shadow-lg shadow-orange-500/40" />
-
-              <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 hover:border-orange-500/40 transition">
-                <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2">
-                    <span className="w-9 h-9 flex items-center justify-center rounded-lg bg-gradient-to-br from-orange-500 to-amber-500 text-white shrink-0">
-                      {item.type === "education" ? (
-                        <GraduationCap size={18} />
-                      ) : (
-                        <Briefcase size={18} />
-                      )}
-                    </span>
-                    <h3 className="text-lg sm:text-xl font-bold text-white">
-                      {item.title}
-                    </h3>
+              <div className="w-full h-full bg-[#080C14] rounded-2xl p-6 md:p-8 relative overflow-hidden backdrop-blur-xl flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                
+                {/* Main Content Info */}
+                <div className="space-y-3 max-w-3xl">
+                  
+                  {/* Period Tag */}
+                  <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono font-semibold">
+                    <Calendar className="w-3.5 h-3.5" />
+                    <span>{exp.period}</span>
                   </div>
-                  <span className="text-orange-400 text-sm font-semibold">
-                    {item.period}
-                  </span>
+
+                  {/* Role Title */}
+                  <h3 className="text-xl md:text-2xl font-bold font-display tracking-wide text-white group-hover:text-blue-200 transition-colors">
+                    {exp.role}
+                  </h3>
+
+                  {/* Company Name */}
+                  <div className="flex items-center gap-2 text-sm font-medium text-slate-300 font-sans">
+                    <Building2 className="w-4 h-4 text-indigo-400" />
+                    <span>{exp.company}</span>
+                  </div>
+
+                  {/* Role Details */}
+                  {exp.details && (
+                    <p className="text-xs md:text-sm text-slate-400 leading-relaxed font-sans pt-2">
+                      {exp.details}
+                    </p>
+                  )}
                 </div>
 
-                <p className="text-gray-300 font-medium mb-1">{item.place}</p>
-                <p className="text-gray-400 text-sm">{item.description}</p>
+                {/* Arrow Micro-Interaction */}
+                <div className="hidden md:flex items-center justify-center p-3 rounded-xl bg-white/[0.02] border border-white/5 group-hover:border-blue-500/30 group-hover:bg-blue-500/10 transition-all duration-300">
+                  <ChevronRight className="w-5 h-5 text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all duration-300" />
+                </div>
+
               </div>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
+
       </div>
     </section>
   );
-};
-
-export default Experience;
+}
